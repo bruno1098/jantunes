@@ -85,11 +85,11 @@ export function Produtos() {
 
   const removeFromCart = (productId: string | number) => {
     setCart(prev => {
-      const newCart: Record<string | number, any> = { ...prev }
-      delete newCart[productId]
-      return newCart
-    })
-  }
+      const newCart: Record<string | number, CartItem> = { ...prev };
+      delete newCart[productId];
+      return newCart;
+    });
+  };
 
   const getUniqueItemsCount = () => {
     return Object.keys(cart).length
@@ -99,8 +99,8 @@ export function Produtos() {
     return Object.values(cart).reduce((total, item) => total + item.quantity, 0)
   }
 
-  const onSubmit = async (data: any) => {
-    const orderDetails = Object.values(cart).map(item => 
+  const onSubmit = async (data: FormData) => {
+    const orderDetails = Object.values(cart).map((item: CartItem) =>
       `${item.name}: ${item.quantity} - Observações: ${item.observations || 'Nenhuma'}`
     ).join('\n');
 
@@ -130,17 +130,24 @@ export function Produtos() {
 
   const fetchAddress = useCallback(async (cep: string) => {
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
-      const data = await response.json()
+      if (!cep) return; // Verifica se o CEP existe antes de buscar
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      const data = await response.json();
       if (!data.erro) {
-        setValue('street', data.logradouro)
+        setValue('street', data.logradouro);
       }
     } catch (error) {
-      console.error('Erro ao buscar endereço:', error)
+      console.error('Erro ao buscar endereço:', error);
     }
   }, [setValue]);
-
   const cep = watch('cep')
+  useEffect(() => {
+    if (cep) {
+      fetchAddress(cep);
+    }
+  }, [fetchAddress, cep]);
+  
+ 
 
   useEffect(() => {
     fetchAddress(cep);
@@ -491,7 +498,9 @@ export function Produtos() {
                         className="bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                       />
                     </div>
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-`blue-700 text-white">Enviar Pedido</Button>
+                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+  Enviar Pedido
+</Button>
                   </form>
                 </CardContent>
               </Card>
