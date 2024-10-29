@@ -6,7 +6,7 @@ import { ChevronRight, Star, Calendar, Gift, Users } from 'lucide-react'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Image from 'next/image'
+
 import logo from './logo.png'
 
 import { Button } from '@/components/ui/button'
