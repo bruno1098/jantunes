@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
 import { ShoppingCart, X, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -99,7 +99,7 @@ export function Produtos() {
     return Object.values(cart).reduce((total, item) => total + item.quantity, 0)
   }
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: any) => {
     const orderDetails = Object.values(cart).map(item => 
       `${item.name}: ${item.quantity} - Observações: ${item.observations || 'Nenhuma'}`
     ).join('\n');
@@ -128,7 +128,7 @@ export function Produtos() {
     reset()
   }
 
-  const fetchAddress = async (cep: string) => {
+  const fetchAddress = useCallback(async (cep: string) => {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
       const data = await response.json()
@@ -138,15 +138,13 @@ export function Produtos() {
     } catch (error) {
       console.error('Erro ao buscar endereço:', error)
     }
-  }
+  }, [setValue]);
 
   const cep = watch('cep')
 
   useEffect(() => {
-    if (cep && cep.length === 8) {
-      fetchAddress(cep)
-    }
-  }, [cep])
+    fetchAddress(cep);
+  }, [fetchAddress, cep]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % products.length)
