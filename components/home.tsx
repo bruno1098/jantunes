@@ -12,11 +12,24 @@ import logo from './logo.png'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+import { useState, useEffect } from 'react'
+
 export default function HomePage() {
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
         <div className="min-h-screen overflow-x-hidden">
-            <header className="bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-10 w-full">
-                <nav className="container mx-auto px-4 sm:px-6 py-4">
+            <header className={`bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-10 w-full transition-all duration-300 ${isScrolled ? 'py-1' : 'py-2'}`}>
+                <nav className="container mx-auto px-4 sm:px-6">
                     <div className="flex justify-between items-center">
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
@@ -27,11 +40,11 @@ export default function HomePage() {
                             <img 
                                 src={logo.src} 
                                 alt="J.Antunes Logo" 
-                                width={100}
-                                height={100}
-                                
+                                className={`transition-all duration-300 ${isScrolled ? 'w-[50px] h-[50px]' : 'w-[70px] h-[70px]'}`}
                             />
-                            <h1 className="text-xl sm:text-2xl font-bold text-white">J.Antunes</h1>
+                            <h1 className={`font-bold text-white transition-all duration-300 ${isScrolled ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'}`}>
+                                J.Antunes
+                            </h1>
                         </motion.div>
                         <motion.div
                             initial={{ opacity: 0, x: 50 }}
@@ -39,7 +52,7 @@ export default function HomePage() {
                             transition={{ duration: 0.5 }}
                         >
                             <Link href="./produtos">
-                                <Button variant="outline" className="text-sm sm:text-base bg-white hover:bg-gray-50 text-gray-800 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+                                <Button variant="outline" className={`transition-all duration-300 ${isScrolled ? 'text-xs py-0.5 px-2' : 'text-sm py-1 px-3'} bg-white hover:bg-gray-50 text-gray-800 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700`}>
                                     Ver Produtos
                                     <ChevronRight className="ml-0 h-2 w-2" />
                                 </Button>
@@ -49,7 +62,7 @@ export default function HomePage() {
                 </nav>
             </header>
 
-            <main className="container mx-auto px-4 sm:px-6 py-8 pt-24">
+            <main className="container mx-auto px-4 sm:px-6 py-8 pt-28">
                 <motion.section
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -66,7 +79,7 @@ export default function HomePage() {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="flex items-center justify-center w-full px-4 sm:px-0"
                     >
-                       <div className="w-full max-w-[500px] md:max-w-[1400px] mx-auto overflow-hidden mx-[-360px] sm:mx-0">
+                       <div className="w-full max-w-[340px] md:max-w-[1400px] mx-auto overflow-hidden mx-[-3px] sm:mx-0">
                             <Slider
                                 dots={false}
                                 infinite={true}
