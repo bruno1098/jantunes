@@ -90,16 +90,7 @@ export default function HomePage() {
           />
           <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
         </motion.div>
-        <div className="relative z-10 flex items-center justify-center h-full px-4">
-         
-            <h1 className="text-3xl sm:text-5xl font-bold mb-4">
-              Transforme seu evento em algo especial
-            </h1>
-            <p className="text-base sm:text-xl mb-6">
-              Alugue os melhores produtos para tornar seu evento inesquecível
-            </p>
-         
-        </div>
+        
       </section>
 
       {/* Gray Section Transition */}
