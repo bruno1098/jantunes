@@ -33,7 +33,7 @@ export default function HomePage() {
     restDelta: 0.001
   });
 
-
+  const y1 = useTransform(smoothY, [0, 500], [0, -150]);
   const graySectionOpacity = useTransform(smoothY, [300, 700], [0, 1])
   const mainTransform = useTransform(smoothY, [0, 300], [150, 0])
 
@@ -76,35 +76,39 @@ export default function HomePage() {
         </nav>
       </header>
 
-      {/* Hero Section with Parallax Image */}
-      <section className="relative h-[100vh] w-full overflow-hidden">
-        <motion.div
-          className="fixed top-0 left-0 w-full h-full"
-        >
-          <img
-            src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
-            alt="Evento Especial"
-            className="absolute top-0 left-0 w-full h-full object-cover"
-            loading="eager"
-          />
-          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
-        </motion.div>
-        <div className="relative z-10 flex items-center justify-center h-full px-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="text-center text-white"
-          >
-            <h1 className="text-3xl sm:text-5xl font-bold mb-4">
-              Transforme seu evento em algo especial
-            </h1>
-            <p className="text-base sm:text-xl mb-6">
-              Alugue os melhores produtos para tornar seu evento inesquecível
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <section className="relative w-full h-screen overflow-y-scroll">
+  <motion.div
+    className="fixed top-0 left-0 w-full h-full z-0"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+    <img
+      src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
+      alt="Evento Especial"
+      className="absolute top-0 left-0 w-full h-full object-cover"
+      loading="eager"
+    />
+    <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
+  </motion.div>
+  <div className="relative z-10 flex items-center justify-center min-h-screen px-4 text-center text-white">
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      className="text-center text-white"
+    >
+      <h1 className="text-3xl sm:text-5xl font-bold mb-4">
+        Transforme seu evento em algo especial
+      </h1>
+      <p className="text-base sm:text-xl mb-6">
+        Alugue os melhores produtos para tornar seu evento inesquecível
+      </p>
+    </motion.div>
+  </div>
+</section>
+
+
 
       {/* Gray Section Transition */}
       <motion.div
