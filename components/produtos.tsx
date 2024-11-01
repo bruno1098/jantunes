@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useForm } from 'react-hook-form'
-import { ShoppingCart, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ShoppingCart, X, ChevronLeft, ChevronRight, Pencil, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -58,7 +58,7 @@ const products = [
   { id: 8, name: 'Taça de Cristal', image: '/placeholder.svg?height=200&width=200', category: 'outros' },
 ]
 
-export function Produtos() {
+export  function Produtos() {
   const [cart, setCart] = useState<Record<number, CartItem>>({});
   const [showCart, setShowCart] = useState(false)
   const [showForm, setShowForm] = useState(false)
@@ -66,19 +66,30 @@ export function Produtos() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<FormData>();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const addToCart = (product: Product | null, quantity: number, observations: string) => {
     if (product) {
-      setCart(prev => ({
-        ...prev,
-        [product.id]: {
-          id: product.id,
-          name: product.name,
-          quantity,
-          observations
+      setCart(prev => {
+        return {
+          ...prev,
+          [product.id]: {
+            id: product.id,
+            name: product.name,
+            quantity: quantity,
+            observations: observations
+          }
         }
-      }))
+      })
     }
     setShowAddToCartModal(false)
   }
@@ -149,9 +160,6 @@ export function Produtos() {
   
  
 
-  useEffect(() => {
-    fetchAddress(cep);
-  }, [fetchAddress, cep]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % products.length)
@@ -168,8 +176,8 @@ export function Produtos() {
 
   return (
     <div className="min-h-screen flex flex-col relative">
-      <header className="bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-10 w-full">
-        <nav className="container mx-auto px-4 sm:px-6 py-4">
+      <header className={`bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-10 w-full transition-all duration-300 ${isScrolled ? 'py-1' : 'py-2'}`}>
+        <nav className="container mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -177,7 +185,7 @@ export function Produtos() {
               transition={{ duration: 0.5 }}
             >
               <Link href="/">
-                <Button variant="ghost" className="text-sm sm:text-base text-blue-600 dark:text-blue-400">
+                <Button variant="ghost" className={`transition-all duration-300 ${isScrolled ? 'text-xs py-0.5 px-2' : 'text-sm py-1 px-3'} text-blue-600 dark:text-blue-400`}>
                   <ChevronLeft className="mr-2 h-4 w-4" />
                   Voltar para Home
                 </Button>
@@ -191,7 +199,7 @@ export function Produtos() {
               <Button 
                 onClick={() => setShowCart(!showCart)} 
                 variant="outline" 
-                className="text-sm sm:text-base text-white dark:bg-gray-800"
+                className={`transition-all duration-300 ${isScrolled ? 'text-xs py-0.5 px-2' : 'text-sm py-1 px-3'} text-white dark:bg-gray-800`}
               >
                 <ShoppingCart className="mr-2 h-4 w-4" />
                 Carrinho ({getUniqueItemsCount()})
@@ -229,7 +237,7 @@ export function Produtos() {
           <Button
             variant="outline"
             size="icon"
-            className="absolute top-1/2 left-2 sm:left-4 transform -translate-y-1/2 bg-white dark:bg-gray-800"
+            className="absolute top-1/2 left-2 sm:left-3 transform -translate-y-1/2 bg-white dark:bg-gray-300"
             onClick={prevSlide}
           >
             <ChevronLeft className="h-4 w-4" />
@@ -237,10 +245,10 @@ export function Produtos() {
           <Button
             variant="outline"
             size="icon"
-            className="absolute top-1/2 right-2 sm:right-4 transform -translate-y-1/2 bg-white dark:bg-gray-800"
+            className="absolute top-1/2 right-1 sm:right-3 transform -translate-y-1/2 bg-white dark:bg-gray-300"
             onClick={nextSlide}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-1 w-1" />
           </Button>
         </motion.div>
 
@@ -303,7 +311,7 @@ export function Produtos() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4"
             >
               <Card className="max-w-md w-full bg-white dark:bg-gray-800">
                 <CardContent className="p-4 sm:p-6">
@@ -370,19 +378,42 @@ export function Produtos() {
                       <ul className="mb-4">
                         {Object.values(cart).map((item) => (
                           <li key={item.id} className="flex justify-between items-center mb-2 pb-2 border-b border-gray-200 dark:border-gray-700">
-                            <div>
+                            <div className="flex-1">
                               <span className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</span>
                               <br />
                               <span className="text-sm text-gray-600 dark:text-gray-400">Quantidade: {item.quantity}</span>
                             </div>
-                            <Button variant="ghost" size="sm" onClick={() => removeFromCart(item.id)}>
-                              <X className="h-4 w-4" />
-                            </Button>
+                            <div className="flex gap-2 items-center">
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => {
+                                  setSelectedProduct(products.find(p => p.id === item.id) || null);
+                                  setShowAddToCartModal(true);
+                                }}
+                              >
+                                <Pencil className="h-4 w-4 text-blue-600" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => {
+                                  if (window.confirm('Tem certeza que deseja remover este item do carrinho?')) {
+                                    removeFromCart(item.id);
+                                  }
+                                }}
+                              >
+                                <Trash2 className="h-4 w-4 text-red-600" />
+                              </Button>
+                            </div>
                           </li>
                         ))}
                       </ul>
-                      <p className="mb-4 font-semibold text-gray-800 dark:text-gray-200">Total de itens: {getTotalItems() as number}</p>
-                      <Button onClick={() => { setShowCart(false); setShowForm(true); }} className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                      <p className="mb-4 font-semibold text-gray-800 dark:text-gray-200">Total de itens: {getTotalItems()}</p>
+                      <Button 
+                        onClick={() => { setShowCart(false); setShowForm(true); }} 
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                      >
                         Solicitar Orçamento
                       </Button>
                     </>
@@ -403,9 +434,15 @@ export function Produtos() {
             >
               <Card className="max-w-md w-full max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800">
                 <CardContent className="p-4 sm:p-6">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Solicitar Orçamento</h2>
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Solicitar Orçamento</h2>
+                    <Button variant="ghost" onClick={() => setShowForm(false)}>
+                      <X className="h-6 w-6" />
+                    </Button>
+                  </div>
                   <p className="mb-4 text-gray-600 dark:text-gray-400">Preencha seus dados para receber um orçamento. Um de nossos vendedores entrará em contato em breve.</p>
                   <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                    
                     <div>
                       <Label htmlFor="name" className="text-gray-700 dark:text-gray-300">Nome</Label>
                       <Input
