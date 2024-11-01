@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronRight, Star, Calendar, Gift, Users } from 'lucide-react'
 import Slider from 'react-slick'
@@ -26,10 +26,16 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const { scrollY } = useScroll()
-  const y1 = useTransform(scrollY, [0, 300], [0, -150])
-  const graySectionOpacity = useTransform(scrollY, [300, 700], [0, 1])
-  const mainTransform = useTransform(scrollY, [0, 300], [150, 0])
+  const { scrollY } = useScroll();
+  const smoothY = useSpring(scrollY, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const y1 = useTransform(smoothY, [0, 500], [0, -150]);
+  const graySectionOpacity = useTransform(smoothY, [300, 700], [0, 1])
+  const mainTransform = useTransform(smoothY, [0, 300], [150, 0])
 
   return (
     <div className="min-h-screen overflow-x-hidden relative">
@@ -72,20 +78,22 @@ export default function HomePage() {
 
       {/* Hero Section with Parallax Image */}
       <section className="relative h-[100vh] w-full overflow-hidden">
-        <motion.img
-          src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
-          alt="Evento Especial"
-          style={{ y: y1 }}
-          className="absolute top-0 left-0 w-full h-full object-cover"
-        />
         <motion.div
+          className="fixed top-0 left-0 w-full h-full"
           style={{ y: y1 }}
-          className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"
-        ></motion.div>
+        >
+          <img
+            src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
+            alt="Evento Especial"
+            className="absolute top-0 left-0 w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
+        </motion.div>
         <div className="relative z-10 flex items-center justify-center h-full px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 100, y: 100 }}
             transition={{ duration: 1 }}
             className="text-center text-white"
           >
@@ -102,7 +110,7 @@ export default function HomePage() {
       {/* Gray Section Transition */}
       <motion.div
         style={{ opacity: graySectionOpacity }}
-        className="bg-gray-100 relative z-10"
+        className="bg-gray-100 relative z-10 mt-10"
       >
         <motion.section
           initial={{ opacity: 0, y: 80 }}
@@ -180,8 +188,7 @@ export default function HomePage() {
             </Link>
           </div>
         </motion.section>
-      </motion.div>
-
+ 
       {/* Remaining Content */}
       <motion.main style={{ y: mainTransform }} className="relative z-10">
         {/* Why Choose Us Section */}
@@ -190,7 +197,7 @@ export default function HomePage() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="text-center my-16 px-4 sm:px-6"
+          className="text-center px-4 sm:px-6"
         >
           <h3 className="text-2xl sm:text-3xl font-semibold mb-12 text-black">
             Por que escolher a J.Antunes?
@@ -294,7 +301,7 @@ export default function HomePage() {
           </div>
         </motion.section>
       </motion.main>
-
+      </motion.div>
       {/* Footer */}
       <footer className="bg-gray-800 text-gray-100 py-6 relative z-10">
         <div className="container mx-auto px-4 sm:px-6 text-center">
