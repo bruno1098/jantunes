@@ -93,7 +93,7 @@ export default function HomePage() {
         <div className="relative z-10 flex items-center justify-center h-full px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 100, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
             className="text-center text-white"
           >
