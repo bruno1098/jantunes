@@ -283,6 +283,9 @@ export default function HomePage() {
           style={{
             backgroundImage:
               'url(https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5690+%281%29-1920w.JPG)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
           }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-60"></div>
