@@ -279,15 +279,20 @@ export default function HomePage() {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="relative overflow-hidden mt-16 py-16 bg-fixed bg-center bg-cover"
-          style={{
-            backgroundImage:
-              'url(https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5690+%281%29-1920w.JPG)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
+          className="relative overflow-hidden mt-16 py-16"
         >
+          <motion.div 
+            className="absolute inset-0"
+            initial={{ scale: 1.1 }}
+            whileInView={{ scale: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <img
+              src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5690+%281%29-1920w.JPG"
+              alt="Background"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
           <div className="absolute inset-0 bg-black bg-opacity-60"></div>
           <div className="relative z-10 text-center text-white px-4">
             <h3 className="text-2xl sm:text-4xl font-semibold mb-6">
