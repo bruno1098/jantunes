@@ -282,7 +282,7 @@ export default function HomePage() {
           className="relative overflow-hidden mt-16 py-16 bg-fixed bg-center bg-cover"
           style={{
             backgroundImage:
-              'url(https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5743-1920w.JPG)',
+              'url(https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5690+%281%29-1920w.JPG)',
           }}
         >
           <div className="absolute inset-0 bg-black bg-opacity-60"></div>
