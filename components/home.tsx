@@ -32,7 +32,7 @@ export default function HomePage() {
   const mainTransform = useTransform(scrollY, [0, 300], [150, 0])
 
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="min-h-screen overflow-x-hidden relative">
       {/* Header */}
       <header
         className={`bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
@@ -74,7 +74,7 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section with Parallax Image */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section className="relative h-[100vh] w-full">
         <motion.img
           src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
           alt="Evento Especial"
@@ -105,7 +105,7 @@ export default function HomePage() {
       {/* Gray Section Transition */}
       <motion.div
         style={{ opacity: graySectionOpacity }}
-        className="bg-gray-100 relative z-1"
+        className="bg-gray-100 relative z-10"
       >
         <motion.section
           initial={{ opacity: 0, y: 80 }}
@@ -186,7 +186,7 @@ export default function HomePage() {
       </motion.div>
 
       {/* Remaining Content */}
-      <motion.main style={{ y: mainTransform }}>
+      <motion.main style={{ y: mainTransform }} className="relative z-10">
         {/* Why Choose Us Section */}
         <motion.section
           initial={{ opacity: 0 }}
@@ -299,7 +299,7 @@ export default function HomePage() {
       </motion.main>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-gray-100 py-6 -mt-1">
+      <footer className="bg-gray-800 text-gray-100 py-6 relative z-10">
         <div className="container mx-auto px-4 sm:px-6 text-center">
           <p className="text-sm sm:text-base">
             &copy; 2023 J.Antunes. Todos os direitos reservados.
