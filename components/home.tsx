@@ -33,12 +33,12 @@ export default function HomePage() {
     restDelta: 0.001
   });
 
-  const y1 = useTransform(smoothY, [0, 500], [0, -150]);
-  const graySectionOpacity = useTransform(smoothY, [300, 700], [0, 1])
-  const mainTransform = useTransform(smoothY, [0, 300], [150, 0])
+  const y1 = useTransform(smoothY, [0, 500], [0, -50]);
+  const graySectionOpacity = useTransform(smoothY, [100, 400], [0, 1])
+  const mainTransform = useTransform(smoothY, [0, 200], [50, 0])
 
   return (
-    <div className="min-h-screen overflow-x-hidden relative">
+    <div className="overflow-x-hidden">
       {/* Header */}
       <header
         className={`bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'py-1' : 'py-2'
@@ -76,19 +76,21 @@ export default function HomePage() {
         </nav>
       </header>
 
-      {/* Hero Section with Parallax Image */}
-      <section className="relative h-[100vh] w-full overflow-hidden">
-        <motion.div
-          className="absolute top-0 left-0 w-full h-full"
-          style={{ y: y1 }}
-        >
-          <img
-            src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
-            alt="Evento Especial"
-            className="absolute top-0 left-0 w-full h-full object-cover"
-            loading="eager"
-          />
-          <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50"></div>
+      {/* Hero Section */}
+      <section className="relative w-full h-screen overflow-y-scroll">
+  <motion.div
+    className="fixed top-0 left-0 w-full h-full z-0"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+    <img
+      src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
+      alt="Evento Especial"
+      className="absolute top-0 left-0 w-full h-full object-cover"
+      loading="eager"
+    />
+          <div className="absolute inset-0 bg-black/50"></div>
         </motion.div>
         <div className="relative z-10 flex items-center justify-center h-full px-4 text-center text-white">
           <motion.div
@@ -107,10 +109,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Gray Section Transition */}
+      {/* Gray Section */}
       <motion.div
         style={{ opacity: graySectionOpacity }}
-        className="bg-gray-100 relative z-10 mt-10"
+        className="bg-gray-100 relative"
       >
         <motion.section
           initial={{ opacity: 0, y: 80 }}
@@ -188,9 +190,13 @@ export default function HomePage() {
             </Link>
           </div>
         </motion.section>
- 
-      {/* Remaining Content */}
-      <motion.main style={{ y: mainTransform }} className="relative z-10">
+      </motion.div>
+
+      {/* Main Content */}
+      <motion.main
+        style={{ y: mainTransform }}
+        className="relative bg-white"
+      >
         {/* Why Choose Us Section */}
         <motion.section
           initial={{ opacity: 0 }}
@@ -301,7 +307,7 @@ export default function HomePage() {
           </div>
         </motion.section>
       </motion.main>
-      </motion.div>
+
       {/* Footer */}
       <footer className="bg-gray-800 text-gray-100 py-6 relative z-10">
         <div className="container mx-auto px-4 sm:px-6 text-center">
