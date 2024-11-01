@@ -35,9 +35,8 @@ export default function HomePage() {
     <div className="min-h-screen overflow-x-hidden relative">
       {/* Header */}
       <header
-        className={`bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-          isScrolled ? 'py-1' : 'py-2'
-        }`}
+        className={`bg-white dark:bg-gray-800 shadow-md fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'py-1' : 'py-2'
+          }`}
       >
         <nav className="container mx-auto px-4 sm:px-6">
           <div className="flex justify-between items-center">
@@ -50,14 +49,12 @@ export default function HomePage() {
               <img
                 src={logo.src}
                 alt="J.Antunes Logo"
-                className={`transition-all duration-300 ${
-                  isScrolled ? 'w-[40px] h-[40px]' : 'w-[60px] h-[60px]'
-                }`}
+                className={`transition-all duration-300 ${isScrolled ? 'w-[40px] h-[40px]' : 'w-[60px] h-[60px]'
+                  }`}
               />
               <h1
-                className={`font-bold text-white transition-all duration-300 ${
-                  isScrolled ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'
-                }`}
+                className={`font-bold text-white transition-all duration-300 ${isScrolled ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'
+                  }`}
               >
                 J.Antunes
               </h1>
@@ -67,14 +64,14 @@ export default function HomePage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
             >
-            
+
             </motion.div>
           </div>
         </nav>
       </header>
 
       {/* Hero Section with Parallax Image */}
-      <section className="relative h-[100vh] w-full">
+      <section className="relative h-[100vh] w-full overflow-hidden">
         <motion.img
           src="https://lirp.cdn-website.com/f46edd80/dms3rep/multi/opt/IMG_5695+%282%29-1920w.JPG"
           alt="Evento Especial"
