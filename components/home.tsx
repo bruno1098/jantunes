@@ -33,7 +33,6 @@ export default function HomePage() {
     restDelta: 0.001
   });
 
-  const y1 = useTransform(smoothY, [0, 500], [0, -50]);
   const graySectionOpacity = useTransform(smoothY, [100, 400], [0, 1])
   const mainTransform = useTransform(smoothY, [0, 200], [50, 0])
 
